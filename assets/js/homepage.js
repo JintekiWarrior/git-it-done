@@ -1,12 +1,11 @@
-const getUserRepos = function() {
-  const response = fetch("https://api.github.com/users/octocat/repos")
-  .then(function(response) {
-    response.json()
-    .then(function(data) {
+const getUserRepos = function(user) {
+  const apiUrl = `https://api.github.com/users/${user}/repos`
+
+  fetch(apiUrl).then(function(response) {
+    response.json().then(function(data) {
       console.log(data)
     })
   })
-  console.log("outside")
 }
 
-getUserRepos()
+getUserRepos("jintekiwarrior")
