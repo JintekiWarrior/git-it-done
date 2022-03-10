@@ -10,10 +10,19 @@ const repoSearchTerm = document.querySelector("#repo-search-term")
 const getUserRepos = function(user) {
   const apiUrl = `https://api.github.com/users/${user}/repos`
 
-  fetch(apiUrl).then(function(response) {
-    response.json().then(function(data) {
-      displayRepos(data, user)
-    })
+  fetch(apiUrl)
+  .then(function(response) {
+    // Successful Request
+    if (response.ok) {
+      response.json().then(function(data) {
+        displayRepos(data, user)
+      })
+    } else {
+      alert("Error: Github User Not Found")
+    }
+  })
+  .catch(function(error) {
+    alert("Unable to connect to GitHub")
   })
 }
 
@@ -36,6 +45,12 @@ userFormEl.addEventListener("submit", formSubmitHandler)
 
 // Handles displaying the data gotten from the api
 const displayRepos = function(repos, searchTerm) {
+  // check if api returned any repos 
+  if (repos.length === 0) {
+    repoContainerEl.textContent = "No repositories found."
+    return
+  }
+
   console.log(repos)
   console.log(searchTerm)
 
